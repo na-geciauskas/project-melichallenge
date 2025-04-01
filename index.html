@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecionando...</title>
+</head>
+<body>
+    <h1>Autenticando...</h1>
+    <script>
+        // Captura os parâmetros da URL
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");  // Ou "code", dependendo do serviço OAuth
+
+        if (token) {
+            // Salva no localStorage para uso posterior
+            localStorage.setItem("auth_token", token);
+            document.body.innerHTML = "<h1>Login bem-sucedido!</h1>";
+        } else {
+            document.body.innerHTML = "<h1>Erro na autenticação.</h1>";
+        }
+    </script>
+</body>
+</html>
