@@ -1,24 +1,66 @@
-# Pipeline de Dados do Mercado Livre
+# Project Meli Challenge
 
-Este projeto implementa um pipeline completo de dados desde a extração até a visualização de produtos do Mercado Livre, com foco em dispositivos Chromecast.
+Pipeline completo de dados para análise de produtos do Mercado Livre, desenvolvido como solução ao desafio proposto em **Challenge | Analytics Engineer**.
 
-## 📌 Visão Geral
+## Visão Geral do Pipeline
 
-O pipeline consiste em três etapas principais:
-1. **Extração**: Coleta de dados da API de busca do Mercado Livre
-2. **Transformação e Carga**: Modelagem dos dados em estrutura relacional e carga em banco SQLite
-3. **Visualização**: Dashboard interativo para análise dos dados
+| Etapa | Descrição | Tecnologias-Chave |
+|-------|-----------|------------------|
+| Extração | Coleta de 500 resultados da API | Python, Requests |
+| Transformação | Modelagem relacional e ETL | Pandas, SQLite |
+| Visualização | Dashboard interativo | Plotly, Jupyter |
 
-## 🛠 Tecnologias Utilizadas
+## Pré-requisitos
 
 - Python 3.8+
-- SQLite
-- Pandas
-- Plotly
-- Jupyter Notebook
-- Requests
+- Gerenciador de pacotes pip
+- Jupyter Notebook (para visualização)
 
-## 📂 Estrutura do Projeto
+## Instalação
+
+```bash
+git clone https://github.com/na-geciauskas/projeto-melichallenge.git
+cd projeto-melichallenge
+pip install -r requirements.txt
+```
+
+## Execução
+
+### 1. Extração de dados:
+```bash
+python src/extraction_meli_challenge.py
+```
+**Saída**: `data/raw_data.csv`
+
+### 2. Modelagem e Carga:
+
+```sql
+-- Arquivo: src/meli_challenge_ddl.sql
+-- Modelo otimizado para análise de produtos
+CREATE TABLE produtos (
+    id VARCHAR(20) PRIMARY KEY,
+    titulo TEXT NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    condicao VARCHAR(20) NOT NULL,
+    vendidos INTEGER DEFAULT 0,
+    data_criacao TIMESTAMP,
+    permalink TEXT
+    thumbnail TEXT
+);
+-- Demais tabelas...
+```
+```bash
+python src/etl_meli_challenge.py
+```
+**Saída**: `data/mercado_livre.db`
+
+### 3. Visualização:
+```bash
+jupyter notebook src/meli_challenge_dashboard.ipynb
+```
+
+
+## Estrutura do Projeto
 
 <pre>
 project-melichallenge/
@@ -36,87 +78,56 @@ project-melichallenge/
 └── requirements.txt           # Dependências do projeto
 </pre>
 
-## 🚀 Como Executar
 
-### Pré-requisitos
+## Destaques Técnicos
 
-- Python 3.8 ou superior
-- pip instalado
+### Extração
+- Paginação inteligente (`offset` + `limit`)
+- Tratamento de rate limits (429)
+- Timeout configurável (30s)
 
-### Instalação
+### Modelagem
 
-1. Clone o repositório:
-```bash
-git clone https://github.com/na-geciauskas/projeto-melichallenge.git
-cd projeto-melichallenge
+```mermaid
+erDiagram
+    produtos ||--o{ produto_categoria : "possui"
+    categorias ||--o{ produto_categoria : "pertence"
+    vendedores ||--o{ produtos : "vende"
+    produtos {
+        string id PK
+        string titulo
+        decimal preco
+        string condicao
+        int vendidos
+        datetime data_criacao
+    }
+    categorias {
+        string id PK
+        string nome
+    }
+    produto_categoria {
+        string produto_id FK
+        string categoria_id FK
+    }
+    vendedores {
+        int id PK
+        string nome
+        decimal reputacao
+        int transacoes
+    }
 ```
 
-2. Instale as dependências:
-```bash
-python src/etl.py
-```
-## 🚀 Execução do Pipeline
+### Visualização
+- Filtros dinâmicos por:
+  - Faixa de preço (slider)
+  - Categoria (dropdown)
+- Métricas em tempo real
 
-### 1. Extração de dados:
-```bash
-python src/extraction.py
-
-```
-### 2. Transformação e carga:
-```bash
-python src/etl.py
-```
-
-### 3. Visualização:
-```bash
-jupyter notebook src/dashboard.ipynb
-```
-
-## 🔍 Detalhes de Implementação
-
-### Passo 1: Extração
-- Extrai 500 resultados da API de busca
-- Termo de busca: "chromecast" (produto com volume suficiente para análise)
-- Tratamento robusto de erros e rate limiting
-- Saída: arquivo CSV com dados brutos
-
-### Passo 2: Modelagem e Carga
-- Modelo relacional com 4 tabelas normalizadas
-- Script SQL para criação da estrutura (DDL)
-- Processo ETL para transformação e carga dos dados
-- Banco de dados SQLite como destino
-
-### Passo 3: Visualização
-- Dashboard interativo com:
-  - Filtros por categoria e faixa de preço
-  - Histograma de distribuição de preços
-  - Gráfico de dispersão preço vs vendidos
-  - Métricas resumidas
-
-## 📊 Decisões de Projeto
-
-**Extração**:
-- Paginação via parâmetros `offset` e `limit`
-- Tratamento de rate limiting (pausas automáticas)
-- 3 tentativas para cada requisição
-
-**Modelagem**:
-- Normalização em 4 tabelas relacionadas
-- Tipos de dados apropriados para análise
-- Foco em atributos analíticos relevantes
-
-**Visualização**:
-- Gráficos interativos com Plotly
-- Filtros dinâmicos com IPywidgets
-- Layout simples e informativo
-
-## 📝 Licença
+## Licença
 
 Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-## ✉️ Contato
+## Contato
 
-Para dúvidas ou sugestões, usar um dos meios de contato:
-- Email: na.geciauskas@gmail.com
-- LinkedIn: [seu-perfil](https://linkedin.com/in/nara-geciauskas-ramos-castillo)
-
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nara_Geciauskas-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/nara-geciauskas-ramos-castillo)
+[![Gmail](https://img.shields.io/badge/Gmail-na.geciauskas@gmail.com-D14836?style=for-the-badge&logo=gmail)](mailto:na.geciauskas@gmail.com)
