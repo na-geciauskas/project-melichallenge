@@ -129,5 +129,5 @@ Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICE
 
 ## Contato
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nara_Geciauskas-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/nara-geciauskas-ramos-castillo)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nara_G_R_Castillo-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/nara-geciauskas-ramos-castillo)
 [![Gmail](https://img.shields.io/badge/Gmail-na.geciauskas@gmail.com-D14836?style=for-the-badge&logo=gmail)](mailto:na.geciauskas@gmail.com)
