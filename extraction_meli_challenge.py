@@ -81,7 +81,7 @@ class MercadoLivreExtractor:
 if __name__ == "__main__":
     extractor = MercadoLivreExtractor()
     
-    # Escolhi "chromecast" por ser um produto com:
+    # Escolhi usar "chromecast", conforme já definido, por ser um produto com:
     # - Volume suficiente de resultados (>500)
     # - Diversidade de atributos para análise
     # - Preços variados para visualização interessante
